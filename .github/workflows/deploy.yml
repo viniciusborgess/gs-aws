@@ -1,0 +1,40 @@
+name: Deploy SpaceGuard para Azure
+
+# Dispara automaticamente a cada push na branch main (e tambem permite
+# rodar manualmente pelo botao "Run workflow" na aba Actions).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: spaceguard-rm
+  NODE_VERSION: "22.x"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Instalar dependencias do servidor (Express)
+        run: npm install
+
+      - name: Build do front (React + Tailwind -> public/)
+        run: npm run build
+
+      - name: Remover codigo-fonte do front (nao e necessario em producao)
+        run: rm -rf client
+
+      - name: Deploy no Azure App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: .
