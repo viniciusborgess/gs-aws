@@ -34,6 +34,17 @@ jobs:
           mkdir deploy
           cp -r server.js package.json package-lock.json public node_modules deploy/
 
+      - name: Diagnostico - a secret esta chegando?
+        env:
+          CRED: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          if [ -z "$CRED" ]; then
+            echo "::error::SECRET AZURE_CREDENTIALS VAZIA OU NAO ENCONTRADA"
+          else
+            echo "Secret presente: ${#CRED} caracteres"
+            echo "Comeca com: $(echo "$CRED" | head -c 1)"
+          fi
+
       - name: Login no Azure (credencial segura via secret)
         uses: azure/login@v2
         with:
