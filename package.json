@@ -1,0 +1,29 @@
+{
+  "name": "spaceguard",
+  "version": "1.0.0",
+  "description": "SpaceGuard - Plataforma de monitoramento de eventos naturais em tempo real usando dados espaciais da NASA (EONET).",
+  "main": "server.js",
+  "engines": {
+    "node": "20.x"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "client": "npm --prefix client run dev",
+    "build": "npm --prefix client install && npm --prefix client run build",
+    "test": "node test/smoke.test.js"
+  },
+  "keywords": [
+    "nasa",
+    "eonet",
+    "space",
+    "monitoring",
+    "azure"
+  ],
+  "author": "Equipe SpaceGuard - FIAP",
+  "license": "MIT",
+  "dependencies": {
+    "applicationinsights": "^2.9.5",
+    "express": "^4.19.2"
+  }
+}

@@ -1,0 +1,7 @@
+node_modules
+npm-debug.log
+
+# Saida do build do front (React/Vite). Gerada por `npm run build`.
+# O Azure roda o build no deploy; nao versionamos os artefatos.
+public/assets
+public/index.html
